@@ -1,0 +1,14 @@
+FROM adrianacto/acto-php:latest
+
+MAINTAINER Adrian Paiva
+
+RUN apt-get update \
+    && apt-get install -y supervisor \
+    && systemctl enable supervisor \
+    && service php7.2-fpm start
+
+ADD laravel-worker.conf /etc/supervisor/conf.d/
+ADD supervisord.conf /etc/supervisor/
+
+EXPOSE 9000
+CMD /usr/bin/supervisord -c /etc/supervisor/supervisord.conf

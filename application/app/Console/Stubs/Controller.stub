@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Api\BaseApiController;
+use App\Http\Requests\MyModelClass\CreateMyModelClassRequest;
+use App\Http\Requests\MyModelClass\UpdateMyModelClassRequest;
+use App\Http\Resources\MyModelClass as MyModelClassResource;
+use App\Http\Resources\MyModelClassCollection;
+use App\Services\MyModelClassService;
+use App\Models\MyModelClass;
+
+/**
+ * @resource MyModelClass
+ */
+class MyModelClassController extends BaseApiController
+{
+    private $my_model_instance_service;
+
+    public function __construct(MyModelClassService $my_model_instance_service)
+    {
+        $this->my_model_instance_service = $my_model_instance_service;
+    }
+
+    /**
+     * Get all MyModelClasss for the current Domain
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $domain_id = Auth::user()->domain_id;
+
+        $my_model_instances = $this->my_model_instance_service->all($domain_id, $this->getEagerLoads());
+
+        return $this->sendResponse(new MyModelClassCollection($my_model_instances));    
+    }
+
+    /**
+     * Create a new MyModelClass 
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateMyModelClassRequest $request)
+    {
+        $data = $request->all();
+
+        $my_model_instance = $this->my_model_instance_service->create($data);
+
+        return $this->sendResponse(new MyModelClassResource($my_model_instance), 'MyModelClass created!', 201);    
+    }
+
+    /**
+     * Display the specified MyModelClass
+     *
+     * @param  MyModelClass
+     * @return \Illuminate\Http\Response
+     */
+    public function show(MyModelClass $my_model_instance)
+    {
+        $this->authorize('view', $my_model_instance);
+
+        $my_model_instance->load($this->getEagerLoads());
+
+        return $this->sendResponse(new MyModelClassResource($my_model_instance));    
+    }
+
+    /**
+     * Update the specified MyModelClass
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  MyModelClass $my_model_instance
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateMyModelClassRequest $request, MyModelClass $my_model_instance)
+    {
+        $data = $request->all();
+        $my_model_instance = $this->my_model_instance_service->update($my_model_instance, $data);
+
+        return $this->sendResponse(new MyModelClassResource($my_model_instance), 'MyModelClass updated!');    
+    }
+
+    /**
+     * Remove the specified MyModelClass from storage.
+     *
+     * @param  MyModelClass $my_model_instance
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(MyModelClass $my_model_instance)
+    {
+        $this->authorize('delete', $my_model_instance);
+
+        if ($this->my_model_instance_service->delete($my_model_instance)) {
+            return $this->sendResponse(null, "MyModelClass deleted successfully", 204);
+        }
+        
+        return $this->sendError('Unable to delete this MyModelClass', [], 500);
+    }
+}

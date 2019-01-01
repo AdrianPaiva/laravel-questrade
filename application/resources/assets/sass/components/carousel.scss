@@ -1,0 +1,15 @@
+.el-carousel {
+    &.el-carousel__dark {
+        .el-carousel__indicator {
+            .el-carousel__button {
+                background-color: #D6D6D6;
+            }
+            
+            &.is-active {
+                .el-carousel__button {
+                    background-color: #575757;
+                }
+            }
+        }
+    }
+}

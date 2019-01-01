@@ -1,0 +1,30 @@
+.el-form {
+    .el-form-item {
+        .el-form-item__error {
+            position: relative;
+        }
+    }
+    
+    &.el-form--label-top {
+        .el-form-item__label {
+            padding: 0px;
+        }
+        
+        label {
+            margin-bottom: 0px;
+        }
+    }
+    
+    &.el-form--label-bold {
+        .el-form-item__label {
+            font-weight: bold;
+        }
+    }
+    
+    &.el-form--label-lg {
+        .el-form-item__label {
+            font-weight: bold;
+            font-size: $font-size-lg;
+        }
+    }
+}

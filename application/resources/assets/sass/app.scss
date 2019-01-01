@@ -1,0 +1,122 @@
+@import "vendor/bootstrap/bootstrap";
+@import "element-acto";
+
+$primary-background-color: #14988B;
+$primary-text-color: #283238;
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(./../fonts/MaterialIcons-Regular.eot); /* For IE6-8 */
+    src: local('Material Icons'),
+    local('MaterialIcons-Regular'),
+    url('./../fonts/MaterialIcons-Regular.woff2') format('woff2'),
+    url('./../fonts/MaterialIcons-Regular.woff') format('woff'),
+    url('./../fonts/MaterialIcons-Regular.ttf') format('truetype');
+}
+
+
+// icons font
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px; /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+body, html, #app, #page-container {
+    height: 100% !important;
+}
+
+*, body {
+    font-family: 'Raleway';
+}
+
+@import "variables";
+@import "components/background";
+@import "components/text";
+@import "components/carousel";
+@import "components/form";
+@import "utilities";
+
+// universal classes
+
+//.el-row {
+//    margin: 0;
+//}
+
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 400px;
+}
+
+
+// side nav layout styling
+
+.fixed-sidebar-block {
+    position: fixed !important;
+    width: 100%;
+    height: 100%;
+}
+
+
+// content layout styling
+
+label#toggleMenuCheckbox span.el-checkbox__input {
+    display: none;
+}
+
+.menu-icons {
+    font-size: 26px;
+    margin-right: 15px;
+    vertical-align: bottom;
+    color: $primary-text-color;
+}
+
+.app-main-content-block {
+    background: #fff;
+    width: calc(100% - 64px);
+    height: 100vh;
+    margin-left: 64px;
+    padding: 20px;
+    -webkit-transition: margin 0.3s ease-out;
+    -moz-transition: margin 0.3s ease-out;
+    -o-transition: margin 0.3s ease-out;
+    transition: margin 0.3s ease-out;
+}
+
+.app-main-content-block-push {
+    margin-left: 300px !important;
+}
+
+
+// login page
+
+.login-box {
+}
+
+// content page
+
+.page-title-block {
+    margin-bottom: 20px;
+    color: $primary-text-color;
+}
