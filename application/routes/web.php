@@ -13,10 +13,13 @@
 // Main page
 Route::get('/', 'HomeController@welcome')->name('welcome')->middleware('guest');
 
+// api route - here for starting session
+Route::post('api/register', 'Api\RegisterController@register');
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', 'HomeController@index')->name('overview');
+    Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/users', 'UserController');
 });
 

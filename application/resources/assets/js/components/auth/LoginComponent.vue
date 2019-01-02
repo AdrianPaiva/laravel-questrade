@@ -1,7 +1,6 @@
 <template>
-	<el-row :gutter="0">
+	<el-row type="flex" align="middle" justify="center">
 		<el-col :span="20" :offset="2">
-			<h1>Welcome</h1>
 			<el-form :model="loginForm" :rules="rules" ref="loginForm" @submit.native.prevent status-icon>
 				<el-form-item label="Email" prop="email" required>
 					<el-input v-model="loginForm.email" type="email" :disabled="isButtonDisabled" @keyup.enter.native="onLogin('loginForm')"></el-input>

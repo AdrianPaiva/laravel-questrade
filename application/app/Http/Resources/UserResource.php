@@ -16,21 +16,16 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'uuid'     => $this->uuid,
-            'email'    => $this->email,
-            'mobile'   => $this->mobile,
-            'verified' => $this->verified,
-            'profile' => new ProfileResource($this->whenLoaded('profile')),
-            
-            // 'userSettings' => new UserSettingsResource($this->whenLoaded('userSettings')),
-            // 'userPermissions' => new UserPermissionCollection($this->whenLoaded('userPermissions')),
-            // 'teams' => new TeamCollection($this->whenLoaded('teams')),
-            // 'mainTeams' => new TeamCollection($this->whenLoaded('mainTeams')),
-            // 'actionPackUsers' => new ActionPackUserCollection($this->whenLoaded('actionPackUsers')),
-            // 'lessonVisits' => new LessonVisitCollection($this->whenLoaded('lessonVisits')),
-            // 'userDevices' => new UserDeviceCollection($this->whenLoaded('userDevices')),
-            // 'contacts' => new ContactCollection($this->whenLoaded('contacts')),
-            // 'resourceShares' => new ResourceShareCollection($this->whenLoaded('resourceShares')),
+            'id'               => $this->id,
+            'first_name'       => $this->first_name,
+            'last_name'        => $this->last_name,
+            'email'            => $this->email,
+            'email_verified_at'=> (string) $this->email_verified_at,
+            'created_at'       => (string) $this->created_at,
+            'updated_at'       => (string) $this->updated_at,
+            'deleted_at'       => (string) $this->deleted_at,
+
+            // 'profile' => new ProfileResource($this->whenLoaded('profile')),
         ];
     }
 }

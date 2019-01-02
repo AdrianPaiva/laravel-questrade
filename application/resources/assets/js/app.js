@@ -24,8 +24,9 @@ Vue.component('register-component', require('./components/auth/RegisterComponent
 Vue.component('login-component', require('./components/auth/LoginComponent.vue').default);
 
 // layout components
-Vue.component('welcome-component', require('./components/WelcomeComponent.vue').default);
 Vue.component('side-nav-component', require('./components/layouts/SidenavComponent.vue').default);
+Vue.component('form-error', require('./components/forms/FormError.vue').default);
+
 
 const app = new Vue({
     el: '#app',

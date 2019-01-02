@@ -30,12 +30,10 @@ class RegisterController extends BaseApiController
      */
     public function register(RegisterRequest $request)
     {
-        $user = User::where(['email' => $request->email])->firstOrFail();
-
-        $user = $this->user_service->register($user, $request->password, $request->first_name, $request->last_name);
+        $user = $this->user_service->create($request->except(['password_confirmation']));
 
         if ($user) {
-            Auth::guard()->login($user);
+            Auth::login($user);
 
             return $this->sendResponse(new UserResource($user), 'Registration successful');
         }

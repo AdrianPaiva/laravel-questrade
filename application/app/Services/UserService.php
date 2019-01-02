@@ -34,7 +34,7 @@ class UserService extends BaseService
         
         try {
             $attributes = [
-                'email'     => $data['email'],
+                'email' => $data['email'],
             ];
 
             $user = User::firstOrCreate($attributes, $data);
@@ -86,30 +86,5 @@ class UserService extends BaseService
             DB::rollback();
             throw $e;
         }
-    }
-    
-    /**
-     * Register a User
-     *
-     * @param  User $user
-     * @param  String $password
-     *
-     * @return User
-     */
-    public function register(User $user, String $password, String $first_name = null, String $last_name = null): User
-    {
-        $data = [
-            'password' => bcrypt($password),
-        ];
-        
-        if ($first_name) {
-            $data['first_name'] = $first_name;
-        }
-        
-        if ($last_name) {
-            $data['last_name'] = $last_name;
-        }
-        
-        return $this->update($user, $data);
     }
 }

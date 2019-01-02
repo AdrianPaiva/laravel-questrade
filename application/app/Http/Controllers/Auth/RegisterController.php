@@ -40,21 +40,4 @@ class RegisterController extends Controller
 
         $this->middleware('guest');
     }
-
-    /**
-     * Handle a registration request for the application.
-     *
-     * @param  \Illuminate\Http\RegisterRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function register(RegisterRequest $request)
-    {
-        $user = User::where(['email' => $request->email])->firstOrFail();
-
-        $user = $this->user_service->register($user, $request->password, $request->first_name, $request->last_name);
-
-        Auth::guard()->login($user);
-
-        return redirect($this->redirectPath());
-    }
 }

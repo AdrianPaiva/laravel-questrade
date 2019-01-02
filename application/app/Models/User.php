@@ -15,9 +15,8 @@ class User extends Authenticatable
     /**
      * @var array
      */
-    protected $fillable = [
-        'email',
-        'password',
+    protected $guarded = [
+    
     ];
     
     /**
@@ -39,39 +38,45 @@ class User extends Authenticatable
         'deleted_at',
     ];
 
-    protected $searchable = ['first_name', 'last_name', 'email'];
+    // protected $searchable = ['first_name', 'last_name', 'email'];
 
-    protected $indexConfigurator = \App\Search\UserIndexConfigurator::class;
+    // protected $indexConfigurator = \App\Search\UserIndexConfigurator::class;
 
-    protected $searchRules = [
-        //
-    ];
+    // protected $searchRules = [
+    //     //
+    // ];
 
-    protected $mapping = [
-        'properties' => [
-            "description"  =>  [ 
-                "type" => "text",  
-            ],
-            "domain_id"  =>  [ 
-                "type" => "long",
-            ],
-            "name" => [
-                "type" => "text",
-                "fields" => [
-                    "ngram" => [
-                        "type" => "text",
-                        "analyzer" => "my_analyzer"
-                    ],
-                ],
-            ],
-        ]
-    ];
+    // protected $mapping = [
+    //     'properties' => [
+    //         "description"  =>  [ 
+    //             "type" => "text",  
+    //         ],
+    //         "domain_id"  =>  [ 
+    //             "type" => "long",
+    //         ],
+    //         "name" => [
+    //             "type" => "text",
+    //             "fields" => [
+    //                 "ngram" => [
+    //                     "type" => "text",
+    //                     "analyzer" => "my_analyzer"
+    //                 ],
+    //             ],
+    //         ],
+    //     ]
+    // ];
 
     /**
      * Fields that are searchable
      */
-    public function toSearchableArray()
+    // public function toSearchableArray()
+    // {
+    //     return $this->only('first_name', 'last_name', 'email');
+    // }
+    //
+     
+    public function setPasswordAttribute($value) 
     {
-        return $this->only('first_name', 'last_name', 'email');
+        $this->attributes['password'] = bcrypt($value);
     }
 }
