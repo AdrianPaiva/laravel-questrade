@@ -35,4 +35,11 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'questrade' => [
+        'client_id' => env('QUESTRADE_CLIENT_ID'),
+        'redirect' => 'https://dictionary.cambridge.org/questrade/callback',
+        'client_secret' => null,
+    ],
+
+
 ];

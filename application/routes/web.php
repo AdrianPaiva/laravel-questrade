@@ -19,6 +19,8 @@ Route::post('api/register', 'Api\RegisterController@register');
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
+	Route::get('questrade/authorize', 'Auth\QuestradeController@redirectToProvider');
+	Route::get('questrade/callback', 'Auth\QuestradeController@handleProviderCallback');
     Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('/users', 'UserController');
 });
@@ -26,3 +28,6 @@ Route::middleware(['auth'])->group(function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+

@@ -23,6 +23,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $service = new \App\Services\External\QuestradeService('adgadgdg');
+        dd($service);
         return view('home');
     }
 
