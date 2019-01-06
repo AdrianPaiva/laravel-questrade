@@ -37,7 +37,7 @@ return [
 
     'questrade' => [
         'client_id' => env('QUESTRADE_CLIENT_ID'),
-        'redirect' => 'https://dictionary.cambridge.org/questrade/callback',
+        'redirect' => env('QUESTRADE_REDIRECT_URL'),
         'client_secret' => null,
     ],
 

@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use Socialite;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class QuestradeController extends Controller
 {
@@ -23,10 +22,8 @@ class QuestradeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback(Request $request)
-    {
-        dd($request->input('code'));
-        
+    public function handleProviderCallback()
+    {   
         $user = Socialite::driver('questrade')->stateless()->user();
 
         // $user->token;

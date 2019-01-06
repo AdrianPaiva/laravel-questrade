@@ -6,13 +6,13 @@ use App\Services\External\ApiService;
 
 class QuestradeService extends ApiService
 {
-    public function __construct(string $api_key, string $base_url = "https://api01.iq.questrade.com/", string $version = "v1")
+    public function __construct(string $access_token, string $base_url, string $version = "v1")
     {
-        $this->setApiKey($api_key);
+        $this->setAccessToken($access_token);
         $this->setBaseUrl($base_url);
         $this->setVersion($version);
 
-        parent::__construct($api_key);
+        parent::__construct($access_token);
     }
 
     /**

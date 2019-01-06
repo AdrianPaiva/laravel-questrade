@@ -10,12 +10,12 @@ class ApiClient
     private $response;
     private $options = [];
     
-    public function __construct(string $api_key)
+    public function __construct(string $access_token)
     {
         $this->setOptions([
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => "Bearer {$api_key}",
+                'Authorization' => "Bearer {$access_token}",
             ]
         ]);
         

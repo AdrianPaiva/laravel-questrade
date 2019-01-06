@@ -9,13 +9,13 @@ class ApiService extends BaseService
 {
     protected $base_url;
     protected $version;
-    protected $api_key;
+    protected $access_token;
     protected $client;
 
-    public function __construct(string $api_key)
+    public function __construct(string $access_token)
     {
-        $this->setApiKey($api_key);
-        $this->client = new ApiClient($this->getApiKey());
+        $this->setAccessToken($access_token);
+        $this->client = new ApiClient($this->getAccessToken());
     }
 
     public function getBaseUrl()
@@ -64,13 +64,13 @@ class ApiService extends BaseService
         return (substr($url, -1) != '/') ? $url.'/': $url;
     }
 
-    public function getApiKey()
+    public function getAccessToken()
     {
-        return $this->api_key;
+        return $this->access_token;
     }
 
-    public function setApiKey(string $api_key)
+    public function setAccessToken(string $access_token)
     {
-        $this->api_key = $api_key;
+        $this->access_token = $access_token;
     }
 }
