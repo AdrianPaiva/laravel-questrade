@@ -12,9 +12,12 @@ class ApiService extends BaseService
     protected $access_token;
     protected $client;
 
-    public function __construct(string $access_token)
+    public function __construct(string $access_token, string $base_url, $version = null)
     {
         $this->setAccessToken($access_token);
+        $this->setBaseUrl($base_url);
+        $this->setVersion($version);
+        
         $this->client = new ApiClient($this->getAccessToken());
     }
 
@@ -41,7 +44,7 @@ class ApiService extends BaseService
         return $this->version;
     }
     
-    public function setVersion(string $version)
+    public function setVersion($version)
     {
         $this->version = $version;
     }
@@ -49,6 +52,11 @@ class ApiService extends BaseService
     public function getClient()
     {
         return $this->client;
+    }
+
+    public function setClient(ApiClient $client)
+    {
+        $this->client = $client;
     }
 
     /**

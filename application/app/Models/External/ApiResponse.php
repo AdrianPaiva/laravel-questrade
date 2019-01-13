@@ -2,6 +2,7 @@
 namespace App\Models\External;
 
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use Illuminate\Support\Collection;
 
 /**
  * For External APIs
@@ -22,7 +23,11 @@ class ApiResponse
             $this->setHasError(true);
         }
 
-        $this->setContent(json_decode($response->getBody()->getContents(), true));
+        $this->setContent(
+            collect(
+                json_decode($response->getBody()->getContents(), true)
+            )
+        );
 
         return $this;
     }
@@ -52,7 +57,7 @@ class ApiResponse
         return $this->content;
     }
 
-    public function setContent(array $content)
+    public function setContent(Collection $content)
     {
         $this->content = $content;
     }
@@ -64,7 +69,7 @@ class ApiResponse
 
     public function setStatusCode(int $status_code)
     {
-        $this->status_code = $status_cohas;
+        $this->status_code = $status_code;
     }
 
     public function setHasError(bool $has_error)

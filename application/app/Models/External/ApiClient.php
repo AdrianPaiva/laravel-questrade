@@ -10,14 +10,20 @@ class ApiClient
     private $response;
     private $options = [];
     
-    public function __construct(string $access_token)
+    public function __construct(string $access_token = null)
     {
-        $this->setOptions([
+        $options = [
             'headers' => [
                 'Accept' => 'application/json',
-                'Authorization' => "Bearer {$access_token}",
-            ]
-        ]);
+            ],
+            // 'http_errors' => false
+        ];
+
+        if ($access_token) {
+            $options['headers']['Authorization'] = "Bearer {$access_token}";
+        }
+
+        $this->setOptions($options);
         
         $this->setGuzzle(new GuzzleClient());
         $this->setResponse(new ApiResponse());
@@ -40,7 +46,8 @@ class ApiClient
 
     public function setOptions(array $options)
     {
-        $this->options = array_merge($this->getOptions(), $options);
+        // $this->options = array_merge($this->getOptions(), $options);
+        $this->options = $options;
     }
 
     public function getResponse()

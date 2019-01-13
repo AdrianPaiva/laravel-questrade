@@ -23,8 +23,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $service = new \App\Services\External\QuestradeService('adgadgdg');
-        dd($service);
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $creds = $user->questradeCredential;
+
+        $service = new \App\Services\External\QuestradeService(new \App\Services\QuestradeCredentialService);
+
+        dd($service->getMarketQuote(21806473));
+
         return view('home');
     }
 

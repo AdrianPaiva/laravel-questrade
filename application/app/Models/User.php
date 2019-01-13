@@ -74,6 +74,14 @@ class User extends Authenticatable
     //     return $this->only('first_name', 'last_name', 'email');
     // }
     //
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function QuestradeCredential()
+    {
+        return $this->hasOne('App\Models\QuestradeCredential');
+    }
      
     public function setPasswordAttribute($value) 
     {

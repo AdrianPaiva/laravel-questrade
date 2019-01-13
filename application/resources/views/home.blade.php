@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    <a href="/questrade/authorize"> Authorize Questrade </a>
                 </div>
             </div>
         </div>

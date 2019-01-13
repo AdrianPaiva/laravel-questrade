@@ -3,29 +3,298 @@ namespace App\Services\External;
 
 use App\Models\External\ApiResponse;
 use App\Services\External\ApiService;
+use App\Models\QuestradeCredential;
+use App\Services\QuestradeCredentialService;
+use App\Exceptions\QuestradeAuthorizationException;
+use App\Models\External\ApiClient;
 
 class QuestradeService extends ApiService
 {
-    public function __construct(string $access_token, string $base_url, string $version = "v1")
-    {
-        $this->setAccessToken($access_token);
-        $this->setBaseUrl($base_url);
-        $this->setVersion($version);
+    public $questrade_credential_service;
+    protected $questrade_credential;
 
-        parent::__construct($access_token);
+    public function __construct(QuestradeCredentialService $questrade_credential_service, $version = 'v1')
+    {
+        $questrade_credential = $questrade_credential_service->getCurrent();
+        
+        if (!$questrade_credential) {
+            throw new QuestradeAuthorizationException("Unable to find your Questrade Credentials, please connect your account");
+        }
+        
+        parent::__construct($questrade_credential->access_token, $questrade_credential->api_server, $version);
+
+        $this->questrade_credential_service = $questrade_credential_service;
+        $this->setQuestradeCredential($questrade_credential);
+    }
+
+
+    public function getQuestradeCredential()
+    {
+        return $this->questrade_credential;
+    }
+    
+    public function setQuestradeCredential(QuestradeCredential $questrade_credential)
+    {
+        if ($questrade_credential->isExpired()) {
+            $questrade_credential = $this->reauthorize($questrade_credential);
+
+            $this->setClient(new ApiClient($questrade_credential->access_token));
+        }
+
+        $this->questrade_credential = $questrade_credential;
     }
 
     /**
-     * List environments
+     * Refresh the access_token
      * 
-     * @return Response
+     * @param  QuestradeCredential $questrade_credential 
+     * @return QuestradeCredential
+     *
+     * @throws  QuestradeAuthorizationException
+     *      
      */
-    public function listEnvironments()
+    public function reauthorize(QuestradeCredential $questrade_credential): QuestradeCredential
     {
-        return $this->client->request(
-            'GET',
-            $this->getMountedBaseUrl() . "environments/",
-            ['query' => ['version' => $this->date_version]]
+        $response = $this->client->request(
+            'POST',
+            'https://login.questrade.com/oauth2/token', [
+                'query' => [
+                    'grant_type'    => 'refresh_token', 
+                    'refresh_token' => $questrade_credential->refresh_token
+                ]
+            ]
         );
+
+        if (!$response->wasSuccessful()) {
+            $this->questrade_credential_service->delete($questrade_credential);
+
+            throw new QuestradeAuthorizationException("Error Reconnecting your Questrade Account");
+        }
+
+        return $this->questrade_credential_service->update($questrade_credential, $response->getContent()->only([
+            'access_token',
+            'token_type',
+            'expire_in',
+            'refresh_token',
+            'api_server',
+        ])->toArray());
+    }
+
+    /**
+     * Get Accounts
+     * 
+     * @return Collection
+     */
+    public function getAccounts()
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "accounts"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Get Account Positions
+     * 
+     * @param  $account_number
+     * 
+     * @return Collection
+     */
+    public function getAccountPositions(int $account_number)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "accounts/{$account_number}/positions"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Get Account Balances
+     * 
+     * @param  $account_number
+     * 
+     * @return Collection
+     */
+    public function getAccountBalances(int $account_number)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "accounts/{$account_number}/balances"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Get Account Executions
+     * 
+     * @param  $account_number
+     * 
+     * @return Collection
+     */
+    public function getAccountExecutions(int $account_number)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "accounts/{$account_number}/executions"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Get Account Orders
+     * 
+     * @param  $account_number
+     * 
+     * @return Collection
+     */
+    public function getAccountOrders(int $account_number)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "accounts/{$account_number}/orders"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Get Account Activities
+     * 
+     * @param  $account_number
+     * 
+     * @return Collection
+     */
+    public function getAccountActivities(int $account_number)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "accounts/{$account_number}/activites"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Get One Symbol
+     * 
+     * @param  $symbol_id
+     * 
+     * @return Collection
+     */
+    public function getSymbol(int $symbol_id)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "symbols/{$symbol_id}"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Search Symbols
+     * 
+     * @param  string $prefix   Prefix of a symbol or any word in the description.
+     * @param  int $offset      Offset in number of records from the beginning of a result set.
+     * 
+     * @return Collection
+     */
+    public function searchSymbols(string $prefix, int $offset = 0)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "symbols/search", [
+                'query' => [
+                    'prefix' => $prefix,
+                    'offset' => $offset,
+                ],
+            ]
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Get Symbol Options
+     * 
+     * @param  $symbol_id
+     * 
+     * @return Collection
+     */
+    public function getSymbolOptions(int $symbol_id)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "symbols/{$symbol_id}/options"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Retrieves information about supported markets.
+     * 
+     * @return Collection
+     */
+    public function getMarkets()
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "markets"
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Retrieves a single Level 1 market data quote for one or more symbols.
+     * 
+     * @return Collection
+     */
+    public function getMarketQuotes($symbol_ids)
+    {
+        if (is_array($symbol_ids)) {
+            $symbol_ids = implode(',', $symbol_ids);
+        }
+
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "markets/quotes", [
+                'query' => [
+                    'ids' => $symbol_ids,
+                ],
+            ]
+
+        );
+
+        return $response->getContent();
+    }
+
+    /**
+     * Retrieves historical market data in the form of OHLC candlesticks for a specified symbol.
+     *
+     * / This call is limited to returning 2,000 candlesticks in a single response.
+     * 
+     * @return Collection
+     */
+    public function getMarketCandles(string $symbol_id, $start_time, $end_time, $interval)
+    {
+        $response = $this->client->request(
+            'GET',
+            $this->getCompleteUrl() . "markets/candles/{$symbol_id}", [
+                'query' => [
+                    'ids' => $symbol_ids,
+                ],
+            ]
+
+        );
+
+        return $response->getContent();
     }
 }

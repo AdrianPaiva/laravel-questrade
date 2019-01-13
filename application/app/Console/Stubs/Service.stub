@@ -35,7 +35,7 @@ class MyModelClassService extends BaseService
             DB::commit();
 
             return $my_model_instance;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             throw $e;
         }
@@ -60,7 +60,7 @@ class MyModelClassService extends BaseService
             DB::commit();
             
             return $my_model_instance;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             throw $e;
         }
@@ -83,7 +83,7 @@ class MyModelClassService extends BaseService
             DB::commit();
 
             return $deleted;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             DB::rollback();
             throw $e;
         }
