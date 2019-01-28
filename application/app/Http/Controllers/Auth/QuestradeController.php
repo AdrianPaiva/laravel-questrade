@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Socialite;
 use App\Http\Controllers\Controller;
 use App\Services\QuestradeCredentialService;
 use Illuminate\Support\Facades\Auth;
+use Socialite;
 
 class QuestradeController extends Controller
 {
@@ -32,7 +32,7 @@ class QuestradeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function handleProviderCallback()
-    {   
+    {
         $user = Socialite::driver('questrade')->stateless()->user();
 
         $data = array_only($user->accessTokenResponseBody, [
@@ -53,6 +53,5 @@ class QuestradeController extends Controller
 
         // error handling here
         dd($questrade_credential);
-
     }
 }

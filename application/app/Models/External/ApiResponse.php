@@ -1,7 +1,6 @@
 <?php
 namespace App\Models\External;
 
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use Illuminate\Support\Collection;
 
 /**

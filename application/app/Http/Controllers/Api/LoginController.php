@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\BaseApiController;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Services\ApiAuthService;
+use Illuminate\Http\Request;
 
 /**
  * @resource Authentication
@@ -22,7 +20,7 @@ class LoginController extends BaseApiController
 
     /**
      * Api Login
-     * 
+     *
      * @param  LoginRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -42,7 +40,7 @@ class LoginController extends BaseApiController
 
     /**
      * Refresh the access token using the refresh token
-     * 
+     *
      * @param  Request $request
      * @param  refresh_token
      */

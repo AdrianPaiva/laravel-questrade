@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\QuestradeCredential\CreateQuestradeCredentialRequest;
 use App\Http\Requests\QuestradeCredential\UpdateQuestradeCredentialRequest;
-use App\Http\Resources\QuestradeCredential as QuestradeCredentialResource;
+use App\Http\Resources\QuestradeCredentialResource;
 use App\Http\Resources\QuestradeCredentialCollection;
-use App\Services\QuestradeCredentialService;
 use App\Models\QuestradeCredential;
+use App\Services\QuestradeCredentialService;
+use Illuminate\Http\Request;
 
 /**
  * @resource QuestradeCredential
@@ -33,11 +31,11 @@ class QuestradeCredentialController extends BaseApiController
     {
         $questrade_credentials = $this->questrade_credential_service->all($this->getEagerLoads());
 
-        return $this->sendResponse(new QuestradeCredentialCollection($questrade_credentials));    
+        return $this->sendResponse(new QuestradeCredentialCollection($questrade_credentials));
     }
 
     /**
-     * Create a new QuestradeCredential 
+     * Create a new QuestradeCredential
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -48,7 +46,7 @@ class QuestradeCredentialController extends BaseApiController
 
         $questrade_credential = $this->questrade_credential_service->create($data);
 
-        return $this->sendResponse(new QuestradeCredentialResource($questrade_credential), 'QuestradeCredential created!', 201);    
+        return $this->sendResponse(new QuestradeCredentialResource($questrade_credential), 'QuestradeCredential created!', 201);
     }
 
     /**
@@ -63,7 +61,7 @@ class QuestradeCredentialController extends BaseApiController
 
         $questrade_credential->load($this->getEagerLoads());
 
-        return $this->sendResponse(new QuestradeCredentialResource($questrade_credential));    
+        return $this->sendResponse(new QuestradeCredentialResource($questrade_credential));
     }
 
     /**
@@ -78,7 +76,7 @@ class QuestradeCredentialController extends BaseApiController
         $data = $request->all();
         $questrade_credential = $this->questrade_credential_service->update($questrade_credential, $data);
 
-        return $this->sendResponse(new QuestradeCredentialResource($questrade_credential), 'QuestradeCredential updated!');    
+        return $this->sendResponse(new QuestradeCredentialResource($questrade_credential), 'QuestradeCredential updated!');
     }
 
     /**
@@ -96,5 +94,18 @@ class QuestradeCredentialController extends BaseApiController
         }
         
         return $this->sendError('Unable to delete this QuestradeCredential', [], 500);
+    }
+
+    /**
+     * Get QuestradeCredential for the current user
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function me()
+    {
+        $questrade_credential = $this->questrade_credential_service->getCurrent();
+        $questrade_credential->load($this->getEagerLoads());
+
+        return $this->sendResponse(new QuestradeCredentialResource($questrade_credential));
     }
 }

@@ -11,12 +11,14 @@ trait Trackable
 {
     public static function bootTrackable()
     {
-        static::creating(function($item) {
-            $item->created_by = Auth::id();
+        $user_id = Auth::id();
+
+        static::creating(function ($item) use ($user_id) {
+            $item->created_by = $user_id;
         });
 
-        static::updating(function($item) {
-            $item->updated_by = Auth::id();
+        static::updating(function ($item) use ($user_id) {
+            $item->updated_by = $user_id;
         });
     }
 }

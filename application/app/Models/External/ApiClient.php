@@ -16,7 +16,7 @@ class ApiClient
             'headers' => [
                 'Accept' => 'application/json',
             ],
-            // 'http_errors' => false
+            'http_errors' => false
         ];
 
         if ($access_token) {

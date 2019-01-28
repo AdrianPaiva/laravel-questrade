@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
-use App\Traits\CreatesUUID;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Passport\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -48,10 +47,10 @@ class User extends Authenticatable
 
     // protected $mapping = [
     //     'properties' => [
-    //         "description"  =>  [ 
-    //             "type" => "text",  
+    //         "description"  =>  [
+    //             "type" => "text",
     //         ],
-    //         "domain_id"  =>  [ 
+    //         "domain_id"  =>  [
     //             "type" => "long",
     //         ],
     //         "name" => [
@@ -83,7 +82,7 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\QuestradeCredential');
     }
      
-    public function setPasswordAttribute($value) 
+    public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
     }

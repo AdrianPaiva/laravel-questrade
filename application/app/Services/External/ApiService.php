@@ -67,7 +67,7 @@ class ApiService extends BaseService
      * @param $string
      * @return string
      */
-    protected function normalizeUrlEndBar(string $url) 
+    protected function normalizeUrlEndBar(string $url)
     {
         return (substr($url, -1) != '/') ? $url.'/': $url;
     }

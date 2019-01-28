@@ -4,7 +4,6 @@ namespace Tests\Feature\Auth;
 
 use App\Services\ResetPasswordService;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Routing\Middleware\ValidateSignature;
 
 class ResetPasswordApiTest extends AuthAPITestCase
 {

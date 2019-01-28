@@ -14,7 +14,8 @@ class QuestradeExtendSocialite
     public function handle(SocialiteWasCalled $socialite_was_called)
     {
         $socialite_was_called->extendSocialite(
-            'questrade', __NAMESPACE__.'\Provider'
+            'questrade',
+            __NAMESPACE__.'\Provider'
         );
     }
 }

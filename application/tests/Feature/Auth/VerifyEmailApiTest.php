@@ -80,4 +80,3 @@ class VerifyEmailApiTest extends AuthAPITestCase
         ]);
     }
 }
-

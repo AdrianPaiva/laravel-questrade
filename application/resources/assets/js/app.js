@@ -27,6 +27,8 @@ Vue.component('login-component', require('./components/auth/LoginComponent.vue')
 Vue.component('side-nav-component', require('./components/layouts/SidenavComponent.vue').default);
 Vue.component('form-error', require('./components/forms/FormError.vue').default);
 
+// Questrade
+Vue.component('questrade-authorize', require('./components/questrade/Authorize.vue').default);
 
 const app = new Vue({
     el: '#app',

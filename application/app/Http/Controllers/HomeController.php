@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class HomeController extends Controller
 {
+    public $questrade_credential_service;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(\App\Services\QuestradeCredentialService $questrade_credential_service)
     {
-        $this->middleware('auth')->except('welcome');
+        $this->questrade_credential_service = $questrade_credential_service;
     }
 
     /**
@@ -23,23 +23,28 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
-        $creds = $user->questradeCredential;
-
-        $service = new \App\Services\External\QuestradeService(new \App\Services\QuestradeCredentialService);
-
-        dd($service->getMarketQuote(21806473));
-
+        dd($this->service->getAccounts());
         return view('home');
     }
 
     /**
-     * Show the application dashboard.
+     * Show the welcome page - guest
      *
      * @return \Illuminate\Http\Response
      */
     public function welcome()
-    {        
+    {
         return view('welcome');
+    }
+
+    public function getQuestradeService()
+    {
+        $creds = $this->questrade_credential_service->getCurrent();
+
+        if (!$creds) {
+            return null;
+        }
+
+        return new \App\Services\External\QuestradeService($this->questrade_credential_service, $creds);
     }
 }

@@ -62,7 +62,6 @@ abstract class TestCase extends BaseTestCase
         $industry = $industry ?? Industry::first();
         
         if (!key_exists('company_id', $attributes)) {
-            
             $company = $this->createCompany($plan, $industry);
             
             $attributes['company_id'] = $company->id;

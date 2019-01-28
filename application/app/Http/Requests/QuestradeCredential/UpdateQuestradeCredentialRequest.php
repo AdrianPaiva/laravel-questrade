@@ -26,13 +26,13 @@ class UpdateQuestradeCredentialRequest extends FormRequest
     public function rules()
     {
         return [
-			'user_id' =>  '', 
-			'access_token' =>  '', 
-			'refresh_token' =>  '', 
-			'api_server' =>  '', 
-			'token_type' =>  '', 
-			'expires_in' =>  '', 
-			'deleted_at' =>  '', 
-		];
+            'user_id' =>  '',
+            'access_token' =>  '',
+            'refresh_token' =>  '',
+            'api_server' =>  '',
+            'token_type' =>  '',
+            'expires_in' =>  '',
+            'deleted_at' =>  '',
+        ];
     }
 }

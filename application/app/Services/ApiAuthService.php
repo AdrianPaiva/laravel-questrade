@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
 /**
@@ -17,7 +17,7 @@ class ApiAuthService extends BaseService
      *
      * @param string $email
      * @param string $password
-     * @return array 
+     * @return array
      */
     public function attemptLogin(string $email, string $password)
     {
@@ -33,7 +33,7 @@ class ApiAuthService extends BaseService
     /**
      * Attempt to refresh the access token using a refresh token
      * @param string $refresh_token
-     * @return array 
+     * @return array
      */
     public function attemptRefresh(string $refresh_token): array
     {
@@ -44,11 +44,11 @@ class ApiAuthService extends BaseService
 
     /**
      * Proxy a request to the OAuth server.
-     * 
+     *
      * @param string $grant_type what type of grant type should be proxied
      * @param array $data the data to send to the server
-     * @return  array 
-     */ 
+     * @return  array
+     */
     public function proxy(string $grant_type, array $data = [])
     {
         $data = array_merge($data, [
@@ -64,7 +64,7 @@ class ApiAuthService extends BaseService
     }
 
     /**
-     * Logs out the user. We revoke access token and refresh token. 
+     * Logs out the user. We revoke access token and refresh token.
      */
     public function logout()
     {

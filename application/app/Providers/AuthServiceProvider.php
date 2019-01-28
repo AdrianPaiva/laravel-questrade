@@ -2,13 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Permission;
-use App\Models\User;
-use Cache;
-use Laravel\Passport\Passport;
-use Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Schema;
+use Laravel\Passport\Passport;
 
 class AuthServiceProvider extends ServiceProvider
 {

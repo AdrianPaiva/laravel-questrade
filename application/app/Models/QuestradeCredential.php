@@ -34,7 +34,6 @@ class QuestradeCredential extends Model
 
     public function isExpired()
     {
-        return true;
         if ((strtotime(now()) - strtotime($this->update_date)) >= $this->expires_in) {
             return true;
         }

@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\QuestradeCredential;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\QuestradeCredential;
+use Illuminate\Foundation\Http\FormRequest;
 
 class CreateQuestradeCredentialRequest extends FormRequest
 {
@@ -25,13 +25,13 @@ class CreateQuestradeCredentialRequest extends FormRequest
     public function rules()
     {
         return [
-			'user_id' =>  '', 
-			'access_token' =>  '', 
-			'refresh_token' =>  '', 
-			'api_server' =>  '', 
-			'token_type' =>  '', 
-			'expires_in' =>  '', 
-			'deleted_at' =>  '', 
-		];
+            'user_id' =>  '',
+            'access_token' =>  '',
+            'refresh_token' =>  '',
+            'api_server' =>  '',
+            'token_type' =>  '',
+            'expires_in' =>  '',
+            'deleted_at' =>  '',
+        ];
     }
 }

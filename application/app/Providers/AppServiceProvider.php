@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Collection;
+use Illuminate\Support\ServiceProvider;
+use App\Models\QuestradeCredential;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        Collection::macro('snakeCaseKeys', function () {
+            return $this->keyBy(function ($value, $key) {
+                return snake_case($key);
+            });
+        });
 
     }
 }

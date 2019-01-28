@@ -24,7 +24,8 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getAuthUrl($state)
     {
         return $this->buildAuthUrlFromBase(
-            'https://login.questrade.com/oauth2/authorize', $state
+            'https://login.questrade.com/oauth2/authorize',
+            $state
         );
     }
 
@@ -59,10 +60,10 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'id'   => null, 
+            'id'   => null,
             'nickname' => null,
-            'name' => null, 
-            'email' => null, 
+            'name' => null,
+            'email' => null,
             'avatar' => null,
         ]);
     }
@@ -88,7 +89,7 @@ class Provider extends AbstractProvider implements ProviderInterface
     protected function getTokenFields($code)
     {
         return [
-            'grant_type'   => 'authorization_code', 
+            'grant_type'   => 'authorization_code',
             'code'         => $code,
             'redirect_uri' => $this->redirectUrl,
             'client_id'    => $this->clientId,

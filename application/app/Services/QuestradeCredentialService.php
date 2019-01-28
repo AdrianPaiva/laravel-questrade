@@ -4,13 +4,14 @@ namespace App\Services;
 
 use App\Models\QuestradeCredential;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class QuestradeCredentialService extends BaseService
 {
     /**
      * Get all QuestradeCredentials for this domain
-     * 
-     * @param  int    $domain_id 
+     *
+     * @param  int    $domain_id
      * @return Collection
      */
     public function all($with = [])
@@ -20,17 +21,17 @@ class QuestradeCredentialService extends BaseService
 
     /**
      * find creds for the current user
-     * 
+     *
      * @return QuestradeCredential|null
      */
-    public function getCurrent() 
+    public function getCurrent()
     {
-        return QuestradeCredential::where('user_id', auth()->user()->id)->latest('updated_at')->first();
+        return QuestradeCredential::where('user_id', Auth::id())->latest('updated_at')->first();
     }
 
     /**
      * Create a QuestradeCredential record
-     * 
+     *
      * @param  array  $data
      * @return QuestradeCredential
      */
@@ -39,7 +40,6 @@ class QuestradeCredentialService extends BaseService
         DB::beginTransaction();
 
         try {
-
             $questrade_credential = QuestradeCredential::updateOrCreate(
                 ['user_id' => $data['user_id']],
                 $data
@@ -56,9 +56,9 @@ class QuestradeCredentialService extends BaseService
 
     /**
      * Update a QuestradeCredential
-     * 
-     * @param  QuestradeCredential $questrade_credential 
-     * @param  array       $data       
+     *
+     * @param  QuestradeCredential $questrade_credential
+     * @param  array       $data
      * @return QuestradeCredential
      */
     public function update(QuestradeCredential $questrade_credential, array $data): QuestradeCredential
@@ -66,7 +66,6 @@ class QuestradeCredentialService extends BaseService
         DB::beginTransaction();
 
         try {
-
             $questrade_credential->fill($data);
             $questrade_credential->save();
 
@@ -81,8 +80,8 @@ class QuestradeCredentialService extends BaseService
 
     /**
      * Delete a QuestradeCredential
-     * 
-     * @param  QuestradeCredential $questrade_credential 
+     *
+     * @param  QuestradeCredential $questrade_credential
      * @return bool|null whether deletion was successful
      */
     public function delete(QuestradeCredential $questrade_credential)
@@ -90,7 +89,6 @@ class QuestradeCredentialService extends BaseService
         DB::beginTransaction();
 
         try {
-
             $deleted = $questrade_credential->delete();
 
             DB::commit();

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class BaseApiController extends Controller
@@ -45,7 +45,7 @@ class BaseApiController extends Controller
 
     /**
      * Get the list of related models to include
-     * 
+     *
      * @return array
      */
     public function getEagerLoads()

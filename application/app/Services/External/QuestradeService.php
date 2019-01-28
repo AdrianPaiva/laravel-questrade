@@ -1,21 +1,21 @@
 <?php
 namespace App\Services\External;
 
-use App\Models\External\ApiResponse;
-use App\Services\External\ApiService;
-use App\Models\QuestradeCredential;
-use App\Services\QuestradeCredentialService;
 use App\Exceptions\QuestradeAuthorizationException;
 use App\Models\External\ApiClient;
+use App\Models\QuestradeCredential;
+use App\Services\QuestradeCredentialService;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
 
 class QuestradeService extends ApiService
 {
     public $questrade_credential_service;
     protected $questrade_credential;
 
-    public function __construct(QuestradeCredentialService $questrade_credential_service, $version = 'v1')
+    public function __construct(QuestradeCredentialService $questrade_credential_service, QuestradeCredential $questrade_credential, $version = 'v1')
     {
-        $questrade_credential = $questrade_credential_service->getCurrent();
+        // $questrade_credential = $questrade_credential_service->getCurrent();
         
         if (!$questrade_credential) {
             throw new QuestradeAuthorizationException("Unable to find your Questrade Credentials, please connect your account");
@@ -27,7 +27,6 @@ class QuestradeService extends ApiService
         $this->setQuestradeCredential($questrade_credential);
     }
 
-
     public function getQuestradeCredential()
     {
         return $this->questrade_credential;
@@ -37,8 +36,6 @@ class QuestradeService extends ApiService
     {
         if ($questrade_credential->isExpired()) {
             $questrade_credential = $this->reauthorize($questrade_credential);
-
-            $this->setClient(new ApiClient($questrade_credential->access_token));
         }
 
         $this->questrade_credential = $questrade_credential;
@@ -46,20 +43,21 @@ class QuestradeService extends ApiService
 
     /**
      * Refresh the access_token
-     * 
-     * @param  QuestradeCredential $questrade_credential 
+     *
+     * @param  QuestradeCredential $questrade_credential
      * @return QuestradeCredential
      *
      * @throws  QuestradeAuthorizationException
-     *      
+     *
      */
     public function reauthorize(QuestradeCredential $questrade_credential): QuestradeCredential
     {
         $response = $this->client->request(
             'POST',
-            'https://login.questrade.com/oauth2/token', [
+            'https://login.questrade.com/oauth2/token',
+            [
                 'query' => [
-                    'grant_type'    => 'refresh_token', 
+                    'grant_type'    => 'refresh_token',
                     'refresh_token' => $questrade_credential->refresh_token
                 ]
             ]
@@ -71,21 +69,25 @@ class QuestradeService extends ApiService
             throw new QuestradeAuthorizationException("Error Reconnecting your Questrade Account");
         }
 
-        return $this->questrade_credential_service->update($questrade_credential, $response->getContent()->only([
+        $updated_credential = $this->questrade_credential_service->update($questrade_credential, $response->getContent()->only([
             'access_token',
             'token_type',
             'expire_in',
             'refresh_token',
             'api_server',
         ])->toArray());
+
+        $this->setClient(new ApiClient($updated_credential->access_token));
+
+        return $this->updated_credential;
     }
 
     /**
      * Get Accounts
-     * 
+     *
      * @return Collection
      */
-    public function getAccounts()
+    public function getAccounts(): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -97,12 +99,12 @@ class QuestradeService extends ApiService
 
     /**
      * Get Account Positions
-     * 
+     *
      * @param  $account_number
-     * 
+     *
      * @return Collection
      */
-    public function getAccountPositions(int $account_number)
+    public function getAccountPositions(int $account_number): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -114,12 +116,12 @@ class QuestradeService extends ApiService
 
     /**
      * Get Account Balances
-     * 
+     *
      * @param  $account_number
-     * 
+     *
      * @return Collection
      */
-    public function getAccountBalances(int $account_number)
+    public function getAccountBalances(int $account_number): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -131,12 +133,12 @@ class QuestradeService extends ApiService
 
     /**
      * Get Account Executions
-     * 
+     *
      * @param  $account_number
-     * 
+     *
      * @return Collection
      */
-    public function getAccountExecutions(int $account_number)
+    public function getAccountExecutions(int $account_number): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -148,12 +150,12 @@ class QuestradeService extends ApiService
 
     /**
      * Get Account Orders
-     * 
+     *
      * @param  $account_number
-     * 
+     *
      * @return Collection
      */
-    public function getAccountOrders(int $account_number)
+    public function getAccountOrders(int $account_number): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -165,12 +167,12 @@ class QuestradeService extends ApiService
 
     /**
      * Get Account Activities
-     * 
+     *
      * @param  $account_number
-     * 
+     *
      * @return Collection
      */
-    public function getAccountActivities(int $account_number)
+    public function getAccountActivities(int $account_number, Carbon $start_time, Carbon $end_time): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -182,12 +184,12 @@ class QuestradeService extends ApiService
 
     /**
      * Get One Symbol
-     * 
+     *
      * @param  $symbol_id
-     * 
+     *
      * @return Collection
      */
-    public function getSymbol(int $symbol_id)
+    public function getSymbol(int $symbol_id): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -199,17 +201,18 @@ class QuestradeService extends ApiService
 
     /**
      * Search Symbols
-     * 
+     *
      * @param  string $prefix   Prefix of a symbol or any word in the description.
      * @param  int $offset      Offset in number of records from the beginning of a result set.
-     * 
+     *
      * @return Collection
      */
-    public function searchSymbols(string $prefix, int $offset = 0)
+    public function searchSymbols(string $prefix, int $offset = 0): Collection
     {
         $response = $this->client->request(
             'GET',
-            $this->getCompleteUrl() . "symbols/search", [
+            $this->getCompleteUrl() . "symbols/search",
+            [
                 'query' => [
                     'prefix' => $prefix,
                     'offset' => $offset,
@@ -222,12 +225,12 @@ class QuestradeService extends ApiService
 
     /**
      * Get Symbol Options
-     * 
+     *
      * @param  $symbol_id
-     * 
+     *
      * @return Collection
      */
-    public function getSymbolOptions(int $symbol_id)
+    public function getSymbolOptions(int $symbol_id): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -239,10 +242,10 @@ class QuestradeService extends ApiService
 
     /**
      * Retrieves information about supported markets.
-     * 
+     *
      * @return Collection
      */
-    public function getMarkets()
+    public function getMarkets(): Collection
     {
         $response = $this->client->request(
             'GET',
@@ -254,10 +257,10 @@ class QuestradeService extends ApiService
 
     /**
      * Retrieves a single Level 1 market data quote for one or more symbols.
-     * 
+     *
      * @return Collection
      */
-    public function getMarketQuotes($symbol_ids)
+    public function getMarketQuotes($symbol_ids): Collection
     {
         if (is_array($symbol_ids)) {
             $symbol_ids = implode(',', $symbol_ids);
@@ -265,7 +268,8 @@ class QuestradeService extends ApiService
 
         $response = $this->client->request(
             'GET',
-            $this->getCompleteUrl() . "markets/quotes", [
+            $this->getCompleteUrl() . "markets/quotes",
+            [
                 'query' => [
                     'ids' => $symbol_ids,
                 ],
@@ -280,14 +284,15 @@ class QuestradeService extends ApiService
      * Retrieves historical market data in the form of OHLC candlesticks for a specified symbol.
      *
      * / This call is limited to returning 2,000 candlesticks in a single response.
-     * 
+     *
      * @return Collection
      */
-    public function getMarketCandles(string $symbol_id, $start_time, $end_time, $interval)
+    public function getMarketCandles(string $symbol_id, Carbon $start_time, Carbon $end_time, $interval): Collection
     {
         $response = $this->client->request(
             'GET',
-            $this->getCompleteUrl() . "markets/candles/{$symbol_id}", [
+            $this->getCompleteUrl() . "markets/candles/{$symbol_id}",
+            [
                 'query' => [
                     'ids' => $symbol_ids,
                 ],

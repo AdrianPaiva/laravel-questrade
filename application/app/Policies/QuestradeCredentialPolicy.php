@@ -2,8 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\User;
 use App\Models\QuestradeCredential;
+use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class QuestradeCredentialPolicy
@@ -19,7 +19,7 @@ class QuestradeCredentialPolicy
      */
     public function view(User $user, QuestradeCredential $questrade_credential)
     {
-        return $user->domain_id == $questrade_credential->domain_id && $user->hasPermission('questrade_credential.view');
+        return $user->id == $questrade_credential->user_id;
     }
 
     /**
@@ -30,7 +30,7 @@ class QuestradeCredentialPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('questrade_credential.create');
+        return true;
     }
 
     /**
@@ -42,7 +42,7 @@ class QuestradeCredentialPolicy
      */
     public function update(User $user, QuestradeCredential $questrade_credential)
     {
-        return $user->domain_id == $questrade_credential->domain_id && $user->hasPermission('questrade_credential.update');
+        return $user->id == $questrade_credential->user_id;
     }
 
     /**
@@ -54,6 +54,6 @@ class QuestradeCredentialPolicy
      */
     public function delete(User $user, QuestradeCredential $questrade_credential)
     {
-        return $user->domain_id == $questrade_credential->domain_id && $user->hasPermission('questrade_credential.delete');
+        return $user->id == $questrade_credential->user_id;
     }
 }

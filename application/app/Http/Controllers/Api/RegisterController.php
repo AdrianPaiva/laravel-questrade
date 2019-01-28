@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Api\BaseApiController;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Services\UserService;
 use App\Http\Resources\UserResource as UserResource;
+use App\Models\User;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -24,7 +23,7 @@ class RegisterController extends BaseApiController
 
     /**
      * Registration
-     * 
+     *
      * @param  RegisterRequest $request
      * @return \Illuminate\Http\Response
      */
@@ -43,10 +42,10 @@ class RegisterController extends BaseApiController
 
     /**
      * Verify that a user exists for the selected domain
-     * 
+     *
      * if the user exists a partial user object is returned with their verified status
      * if not a blank array is returned
-     * 
+     *
      * @param  Request $request
      * @return \Illuminate\Http\Response
      */

@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use App\Http\Controllers\Api\BaseApiController;
-use Illuminate\Http\Request;
-use App\Http\Resources\UserCollection;
-use App\Http\Resources\UserResource as UserResource;
-use App\Services\UserService;
 use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Http\Requests\User\UploadUsersRequest;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource as UserResource;
+use App\Models\User;
+use App\Services\UserService;
+use Illuminate\Http\Request;
 
 /**
  * @resource Users
@@ -20,7 +17,7 @@ class UserController extends BaseApiController
 {
     private $user_service;
 
-    public function __construct(UserService $user_service) 
+    public function __construct(UserService $user_service)
     {
         $this->user_service = $user_service;
     }
@@ -98,7 +95,7 @@ class UserController extends BaseApiController
 
     /**
      * Retrieve the Current User
-     * 
+     *
      * @param  Request $request
      */
     public function currentUser(Request $request)

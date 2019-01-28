@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use File;
+use Illuminate\Support\ServiceProvider;
 
 class HelperServiceProvider extends ServiceProvider
 {
