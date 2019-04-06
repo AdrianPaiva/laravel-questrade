@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Questrade;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 

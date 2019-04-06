@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Questrade;
 
 use App\Models\QuestradeCredential;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +26,7 @@ class QuestradeCredentialService extends BaseService
      */
     public function getCurrent()
     {
-        return QuestradeCredential::where('user_id', Auth::id())->latest('updated_at')->first();
+        return QuestradeCredential::where('user_id', Auth::id())->latest('updated_at')->firstOrFail();
     }
 
     /**

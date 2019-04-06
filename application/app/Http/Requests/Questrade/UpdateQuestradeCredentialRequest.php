@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\QuestradeCredential;
+namespace App\Http\Requests\Questrade;
 
-use App\Models\QuestradeCredential;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateQuestradeCredentialRequest extends FormRequest
+class UpdateQuestradeCredentialRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,9 @@ class CreateQuestradeCredentialRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('create', QuestradeCredential::class);
+        $questrade_credential = $this->route('questrade_credential');
+
+        return $questrade_credential && $this->user()->can('update', $questrade_credential);
     }
 
     /**

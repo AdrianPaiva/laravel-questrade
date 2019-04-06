@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Services\QuestradeCredentialService;
+use App\Services\Questrade\QuestradeCredentialService;
 use Illuminate\Support\Facades\Auth;
 use Socialite;
 

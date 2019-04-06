@@ -98,7 +98,7 @@ class UserController extends BaseApiController
      *
      * @param  Request $request
      */
-    public function currentUser(Request $request)
+    public function me(Request $request)
     {
         $user = $request->user();
         $user->load($this->getEagerLoads());

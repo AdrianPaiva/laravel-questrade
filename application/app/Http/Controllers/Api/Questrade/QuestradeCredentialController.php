@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Questrade;
 
-use App\Http\Requests\QuestradeCredential\CreateQuestradeCredentialRequest;
-use App\Http\Requests\QuestradeCredential\UpdateQuestradeCredentialRequest;
-use App\Http\Resources\QuestradeCredentialResource;
-use App\Http\Resources\QuestradeCredentialCollection;
-use App\Models\QuestradeCredential;
-use App\Services\QuestradeCredentialService;
+use App\Http\Requests\Questrade\CreateQuestradeCredentialRequest;
+use App\Http\Requests\Questrade\UpdateQuestradeCredentialRequest;
+use App\Http\Resources\Questrade\QuestradeCredentialResource;
+use App\Http\Resources\Questrade\QuestradeCredentialCollection;
+use App\Models\Questrade\QuestradeCredential;
+use App\Services\Questrade\QuestradeCredentialService;
 use Illuminate\Http\Request;
 
 /**

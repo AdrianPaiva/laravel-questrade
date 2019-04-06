@@ -4,7 +4,7 @@ namespace App\Services\External;
 use App\Exceptions\QuestradeAuthorizationException;
 use App\Models\External\ApiClient;
 use App\Models\QuestradeCredential;
-use App\Services\QuestradeCredentialService;
+use App\Services\Questrade\QuestradeCredentialService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 

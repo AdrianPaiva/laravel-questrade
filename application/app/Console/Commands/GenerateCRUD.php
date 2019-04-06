@@ -34,6 +34,8 @@ class GenerateCRUD extends Command
 
     private $model_path;
 
+    private $folder_name;
+
     /**
      * Create a new command instance.
      *
@@ -57,6 +59,7 @@ class GenerateCRUD extends Command
 
         $this->model_name = ucfirst(trim($this->argument('model')));
         $this->model_path = "App\Models\\".$this->model_name;
+        $this->folder_name = ucfirst(trim($this->argument('folder')));
 
         $this->createModel();
         $this->createPolicy();
@@ -69,7 +72,7 @@ class GenerateCRUD extends Command
 
     private function createModel()
     {
-        Artisan::call("krlove:generate:model", ['class-name' => $this->model_name, '--output-path' => 'Models', '--namespace' => 'App\Models']);
+        Artisan::call("krlove:generate:model", ['class-name' => $this->model_name, '--output-path' => 'Models', '--namespace' => "App\Models\{$this->folder_name}"]);
 
         $this->line('model generated');
     }
@@ -82,7 +85,7 @@ class GenerateCRUD extends Command
         $stub = str_replace('MyModelClass', $this->model_name, $stub);
         $stub = str_replace('my_model_instance', snake_case($this->model_name), $stub);
 
-        $this->files->put(app_path('Policies/' . $filename), $stub);
+        $this->files->put(app_path("Policies/{$this->folder_name}/{$filename}"), $stub);
 
         $this->line('Created Policy ' . $filename);
     }
@@ -107,7 +110,7 @@ class GenerateCRUD extends Command
 
         $stub = str_replace('my_attributes', $attribute_string, $stub);
 
-        $this->files->put(app_path('Http/Resources/' . $filename), $stub);
+        $this->files->put(app_path("Http/Resources/{$this->folder_name}/$filename"), $stub);
         $this->line('model resource generated');
 
         Artisan::call("make:resource", ['name' => $this->model_name."Collection", '-c' => true]);

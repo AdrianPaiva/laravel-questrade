@@ -9,11 +9,11 @@ Route::get('register/verify-user-exists/{email}', 'Api\RegisterController@verify
 
 Route::middleware(['auth:api'])->group(function () {
     Route::post('logout', 'Api\LoginController@logout');
-    Route::get('user', 'Api\UserController@currentUser');
-	Route::get('questrade-credentials/me', 'Api\QuestradeCredentialController@me');
+    Route::get('users/me', 'Api\UserController@me');
+	Route::get('questrade-credentials/me', 'Api\Questrade\QuestradeCredentialController@me');
 
     Route::apiResources([
         'users' => 'Api\UserController',
-        'questrade-credentials' => 'Api\QuestradeCredentialController'
+        'questrade-credentials' => 'Api\Questrade\QuestradeCredentialController'
     ]);
 });

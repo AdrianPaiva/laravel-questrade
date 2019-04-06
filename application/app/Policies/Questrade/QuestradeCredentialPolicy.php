@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Questrade;
 
-use App\Models\QuestradeCredential;
+use App\Models\Questrade\QuestradeCredential;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
