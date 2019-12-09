@@ -2,7 +2,8 @@
 
 namespace App\Services\Questrade;
 
-use App\Models\QuestradeCredential;
+use App\Models\Questrade\QuestradeCredential;
+use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 

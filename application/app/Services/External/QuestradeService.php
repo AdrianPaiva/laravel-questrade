@@ -13,7 +13,7 @@ class QuestradeService extends ApiService
     public $questrade_credential_service;
     protected $questrade_credential;
 
-    public function __construct(QuestradeCredentialService $questrade_credential_service, QuestradeCredential $questrade_credential, $version = 'v1')
+    public function __construct(QuestradeCredentialService $questrade_credential_service, ?QuestradeCredential $questrade_credential, $version = 'v1')
     {
         // $questrade_credential = $questrade_credential_service->getCurrent();
         

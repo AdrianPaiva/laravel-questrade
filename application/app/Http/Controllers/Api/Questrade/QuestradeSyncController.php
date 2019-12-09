@@ -20,7 +20,6 @@ class QuestradeSyncController extends BaseApiController
     {
         $questrade_credentials = $questrade_credential_service->getCurrent();
 
-
         return $this->sendResponse(new QuestradeCredentialCollection($questrade_credentials));
     }
 }

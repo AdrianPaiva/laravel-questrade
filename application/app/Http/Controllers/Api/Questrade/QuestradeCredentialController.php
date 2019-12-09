@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Questrade;
 
+use App\Http\Controllers\Api\BaseApiController;
 use App\Http\Requests\Questrade\CreateQuestradeCredentialRequest;
 use App\Http\Requests\Questrade\UpdateQuestradeCredentialRequest;
 use App\Http\Resources\Questrade\QuestradeCredentialResource;
