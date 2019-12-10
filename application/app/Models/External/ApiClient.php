@@ -30,7 +30,7 @@ class ApiClient
     }
 
     public function request(string $method, string $uri, array $options = [])
-    {
+    {   
         return $this->response->parse($this->guzzle->request($method, $uri, array_merge($this->getOptions(), $options)));
     }
 

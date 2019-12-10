@@ -11,14 +11,14 @@
         "fideloper/proxy": "~4",
         "itsgoingd/clockwork": "^3.1",
         "laravel/framework": "^6.0",
-        "laravel/horizon": "^2.0",
+        "laravel/helpers": "^1.1",
+        "laravel/horizon": "^3.4",
         "laravel/passport": "8.0",
         "laravel/socialite": "^4.0",
         "laravel/tinker": "~1.0",
         "league/flysystem-aws-s3-v3": "~1.0",
         "predis/predis": "^1.1",
-        "socialiteproviders/manager": "^3.3",
-        "uxweb/sweet-alert": "^2.0"
+        "socialiteproviders/manager": "^3.3"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Services\Questrade;
+namespace App\Services;
 
-use App\Models\Questrade\QuestradeCredential;
-use App\Services\BaseService;
+use App\Models\QuestradeCredential;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 

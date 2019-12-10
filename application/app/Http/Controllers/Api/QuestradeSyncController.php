@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api\Questrade;
+namespace App\Http\Controllers\Api;
 
-use App\Models\QuestradeCredential;
-use App\Services\Questrade\QuestradeCredentialService;
-use Illuminate\Http\Request;
-use App\Services\External\QuestradeService;
+
+use App\Http\Resources\QuestradeCredentialCollection;
+use App\Services\QuestradeCredentialService;
 
 /**
  * @resource QuestradeSync

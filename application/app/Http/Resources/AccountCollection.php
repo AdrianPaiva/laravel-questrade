@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\Questrade;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class QuestradeCredentialCollection extends ResourceCollection
+class AccountCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.

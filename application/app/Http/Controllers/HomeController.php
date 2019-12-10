@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\QuestradeCredential;
+use App\Services\External\QuestradeService;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller
 {
     /**
@@ -9,9 +14,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(QuestradeService $questrade_service)
     {
-        return view('home');
+        $questrade_credentials = QuestradeCredential::where('user_id', Auth::id())->latest('updated_at')->first();
+
+
+        $number = "51703389";
+        // dd($questrade_service->getAccounts());
+
+        dd($questrade_service->getAccountActivities($number, Carbon::now()->subDays(30), Carbon::now()));
+
+        return view('home', [
+            'questrade_credentials' => $questrade_credentials,
+        ]);
     }
 
     /**

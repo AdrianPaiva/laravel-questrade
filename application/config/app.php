@@ -180,7 +180,7 @@ return [
         App\Providers\HelperServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
-        // App\Providers\QuestradeCredentialServiceProvider::class,
+         App\Providers\QuestradeCredentialServiceProvider::class,
     ],
     
     /*

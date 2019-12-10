@@ -4,7 +4,7 @@ namespace App\Services\External;
 use App\Exceptions\QuestradeAuthorizationException;
 use App\Models\External\ApiClient;
 use App\Models\QuestradeCredential;
-use App\Services\Questrade\QuestradeCredentialService;
+use App\Services\QuestradeCredentialService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -15,8 +15,6 @@ class QuestradeService extends ApiService
 
     public function __construct(QuestradeCredentialService $questrade_credential_service, ?QuestradeCredential $questrade_credential, $version = 'v1')
     {
-        // $questrade_credential = $questrade_credential_service->getCurrent();
-        
         if (!$questrade_credential) {
             throw new QuestradeAuthorizationException("Unable to find your Questrade Credentials, please connect your account");
         }
@@ -79,7 +77,7 @@ class QuestradeService extends ApiService
 
         $this->setClient(new ApiClient($updated_credential->access_token));
 
-        return $this->updated_credential;
+        return $updated_credential;
     }
 
     /**
@@ -172,11 +170,17 @@ class QuestradeService extends ApiService
      *
      * @return Collection
      */
-    public function getAccountActivities(int $account_number, Carbon $start_time, Carbon $end_time): Collection
+    public function getAccountActivities(int $account_number, Carbon $start_date, Carbon $end_date): Collection
     {
         $response = $this->client->request(
             'GET',
-            $this->getCompleteUrl() . "accounts/{$account_number}/activites"
+            $this->getCompleteUrl() . "accounts/{$account_number}/activities",
+            [
+                'query' => [
+                    'startTime' => $start_date->format("c"),
+                    'endTime'   => $end_date->format("c"),
+                ],
+            ]
         );
 
         return $response->getContent();

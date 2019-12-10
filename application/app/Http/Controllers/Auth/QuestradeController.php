@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\Questrade\QuestradeCredentialService;
 use Illuminate\Support\Facades\Auth;
 use Socialite;
+use Illuminate\Support\Arr;
 
 class QuestradeController extends Controller
 {
@@ -35,7 +36,7 @@ class QuestradeController extends Controller
     {
         $user = Socialite::driver('questrade')->stateless()->user();
 
-        $data = array_only($user->accessTokenResponseBody, [
+        $data = Arr::only($user->accessTokenResponseBody, [
             'access_token',
             'api_server',
             'refresh_token',

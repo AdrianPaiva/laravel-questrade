@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller as Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+
+//use Illuminate\Http\Request;
 
 class BaseApiController extends Controller
 {
@@ -62,7 +63,7 @@ class BaseApiController extends Controller
     */
     public function getRequestArray(string $parameter_name): array
     {
-        $value = Input::get($parameter_name, []);
+        $value = Request::input($parameter_name, []);
 
         if (is_string($value)) {
             return explode(',', $value);
