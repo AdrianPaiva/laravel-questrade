@@ -7,6 +7,7 @@ use App\Models\QuestradeCredential;
 use App\Services\QuestradeCredentialService;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use GuzzleHttp\Promise\Promise;
 
 class QuestradeService extends ApiService
 {
@@ -184,6 +185,49 @@ class QuestradeService extends ApiService
         );
 
         return $response->getContent();
+    }
+
+    /**
+     * Get Account Activities
+     *
+     * @param  $account_number
+     *
+     * @return Collection
+     */
+    public function getAccountActivitiesAsync(int $account_number, Carbon $start_date, Carbon $end_date): Promise
+    {
+        return $this->client->requestAsync(
+            'GET',
+            $this->getCompleteUrl() . "accounts/{$account_number}/activities",
+            [
+                'query' => [
+                    'startTime' => $start_date->format("c"),
+                    'endTime'   => $end_date->format("c"),
+                ],
+            ]
+        );
+    }
+
+    /**
+     * @param  string $account_number
+     * @param  int|integer $number_of_months
+     * @return Collection                    [multiple ApiResponses]
+     */
+    public function getBulkAccountActivities(string $account_number, int $number_of_months = 12): Collection
+    {
+        $promises = [];
+
+        $end_date = Carbon::now();
+        $start_date = Carbon::now()->subDays(30);
+
+        for ($i = 0; $i < $number_of_months; $i++) { 
+            $promises[] = $this->getAccountActivitiesAsync($account_number, $start_date, $end_date);
+
+            $start_date->subDays(30);
+            $end_date->subDays(30);
+        }
+
+        return collect(ApiClient::parsePromises($promises));
     }
 
     /**

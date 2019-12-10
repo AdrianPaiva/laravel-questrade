@@ -31,9 +31,7 @@ class AccountController extends BaseApiController
      */
     public function index()
     {
-        $domain_id = Auth::user()->domain_id;
-
-        $accounts = $this->account_service->all($domain_id, $this->getEagerLoads());
+        $accounts = $this->account_service->all(Auth::user()->id, $this->getEagerLoads());
 
         return $this->sendResponse(new AccountCollection($accounts));    
     }

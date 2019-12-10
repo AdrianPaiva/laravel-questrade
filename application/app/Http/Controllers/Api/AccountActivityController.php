@@ -31,11 +31,9 @@ class AccountActivityController extends BaseApiController
      */
     public function index()
     {
-        $domain_id = Auth::user()->domain_id;
+        $account_activities = $this->account_activity_service->all(Auth::user()->id, $this->getEagerLoads());
 
-        $account_activitys = $this->account_activity_service->all($domain_id, $this->getEagerLoads());
-
-        return $this->sendResponse(new AccountActivityCollection($account_activitys));    
+        return $this->sendResponse(new AccountActivityCollection($account_activities));    
     }
 
     /**

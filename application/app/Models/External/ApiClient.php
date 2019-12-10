@@ -3,6 +3,7 @@
 namespace App\Models\External;
 
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Promise\Promise;
 
 class ApiClient
 {
@@ -32,6 +33,23 @@ class ApiClient
     public function request(string $method, string $uri, array $options = [])
     {   
         return $this->response->parse($this->guzzle->request($method, $uri, array_merge($this->getOptions(), $options)));
+    }
+
+    public function requestAsync(string $method, string $uri, array $options = []): Promise
+    {   
+        return $this->guzzle->requestAsync($method, $uri, array_merge($this->getOptions(), $options));
+    }
+
+    public static function parsePromises(array $promises)
+    {
+        $responses = collect(\GuzzleHttp\Promise\settle($promises)->wait());
+
+        return $responses->map(function ($response) {
+            $api_response = new ApiResponse();
+            $api_response->parse($response['value']);
+
+            return $api_response;
+        });
     }
 
     public function setGuzzle(GuzzleClient $guzzle)

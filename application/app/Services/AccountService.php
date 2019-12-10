@@ -7,15 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class AccountService extends BaseService
 {
-    /**
-     * Get all Accounts for this domain
-     * 
-     * @param  int    $domain_id 
-     * @return Collection
-     */
-    public function all(int $domain_id, $with = [])
+    public function all(int $user_id, $with = [])
     {
-        return Account::with($with)->where('domain_id',$domain_id)->get();
+        return Account::with($with)->where('user_id', $user_id)->get();
     }
 
     /**
