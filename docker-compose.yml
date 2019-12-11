@@ -26,22 +26,6 @@ services:
      - appnet
     ports:
      - "6379:6379"
-  elasticsearch:
-    image: elastic/elasticsearch:6.3.1
-    environment:
-      - cluster.name=docker-cluster
-      - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-    networks:
-      - appnet
   db:
     image: mysql:5.7
     environment:
