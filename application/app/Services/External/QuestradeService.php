@@ -227,7 +227,7 @@ class QuestradeService extends ApiService
             $end_date->subDays(30);
         }
 
-        return collect(ApiClient::parsePromises($promises));
+        return ApiClient::parsePromises($promises);
     }
 
     /**

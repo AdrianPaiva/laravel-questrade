@@ -30,7 +30,7 @@ class ApiClient
         $this->setResponse(new ApiResponse());
     }
 
-    public function request(string $method, string $uri, array $options = [])
+    public function request(string $method, string $uri, array $options = []): ApiResponse
     {   
         return $this->response->parse($this->guzzle->request($method, $uri, array_merge($this->getOptions(), $options)));
     }

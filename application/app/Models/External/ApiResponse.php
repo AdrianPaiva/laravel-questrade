@@ -9,10 +9,10 @@ use Illuminate\Support\Collection;
 class ApiResponse
 {
     private $headers = [];
-    private $content = [];
+    private $content;
     private $status_code;
     private $has_error = false;
-    
+
     public function parse(\GuzzleHttp\Psr7\Response $response): ApiResponse
     {
         $this->setHeaders($response->getHeaders());
@@ -51,7 +51,7 @@ class ApiResponse
         $this->headers = $headers;
     }
 
-    public function getContent()
+    public function getContent(): Collection
     {
         return $this->content;
     }

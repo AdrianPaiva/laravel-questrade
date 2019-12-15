@@ -75,7 +75,6 @@
       <path value="$PROJECT_DIR$/application/vendor/symfony/stopwatch" />
       <path value="$PROJECT_DIR$/application/vendor/league/oauth2-server" />
       <path value="$PROJECT_DIR$/application/vendor/symfony/console" />
-      <path value="$PROJECT_DIR$/application/vendor/league/flysystem-aws-s3-v3" />
       <path value="$PROJECT_DIR$/application/vendor/symfony/process" />
       <path value="$PROJECT_DIR$/application/vendor/league/event" />
       <path value="$PROJECT_DIR$/application/vendor/symfony/translation" />
@@ -123,6 +122,11 @@
       <path value="$PROJECT_DIR$/application/vendor/symfony/polyfill-php73" />
       <path value="$PROJECT_DIR$/application/vendor/symfony/polyfill-iconv" />
       <path value="$PROJECT_DIR$/application/vendor/laravel/helpers" />
+      <path value="$PROJECT_DIR$/application/vendor/justinrainbow/json-schema" />
+      <path value="$PROJECT_DIR$/application/vendor/seld/phar-utils" />
+      <path value="$PROJECT_DIR$/application/vendor/seld/jsonlint" />
+      <path value="$PROJECT_DIR$/application/vendor/barryvdh/reflection-docblock" />
+      <path value="$PROJECT_DIR$/application/vendor/barryvdh/laravel-ide-helper" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

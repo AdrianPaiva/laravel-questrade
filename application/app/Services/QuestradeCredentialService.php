@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\Auth;
 class QuestradeCredentialService extends BaseService
 {
     /**
-     * Get all QuestradeCredentials for this domain
+     * Get all QuestradeCredentials
      *
-     * @param  int    $domain_id
-     * @return Collection
      */
     public function all($with = [])
     {
@@ -32,8 +30,9 @@ class QuestradeCredentialService extends BaseService
     /**
      * Create a QuestradeCredential record
      *
-     * @param  array  $data
+     * @param array $data
      * @return QuestradeCredential
+     * @throws \Throwable
      */
     public function create(array $data): QuestradeCredential
     {
@@ -57,9 +56,10 @@ class QuestradeCredentialService extends BaseService
     /**
      * Update a QuestradeCredential
      *
-     * @param  QuestradeCredential $questrade_credential
-     * @param  array       $data
+     * @param QuestradeCredential $questrade_credential
+     * @param array $data
      * @return QuestradeCredential
+     * @throws \Throwable
      */
     public function update(QuestradeCredential $questrade_credential, array $data): QuestradeCredential
     {
@@ -81,8 +81,9 @@ class QuestradeCredentialService extends BaseService
     /**
      * Delete a QuestradeCredential
      *
-     * @param  QuestradeCredential $questrade_credential
+     * @param QuestradeCredential $questrade_credential
      * @return bool|null whether deletion was successful
+     * @throws \Throwable
      */
     public function delete(QuestradeCredential $questrade_credential)
     {
